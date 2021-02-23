@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import CardList from '../components/CardList';
 import SearchBox from '../components/SearchBox';
-// import { robots } from './robots';
 import Scroll from '../components/Scroll';
 import ErrorBoundry from '../components/ErrorBoundry';
 import './App.css';
@@ -11,6 +10,7 @@ const App = () => {
 
     const [robots, setRobots] = useState([])
     const [searchfield, setSearchField] = useState('')
+    const [count, setCount] = useState(0)
 
     useEffect(() => {
         fetch('https://jsonplaceholder.typicode.com/users')
@@ -34,6 +34,8 @@ const App = () => {
 
             <div className='tc'>
                 <h1 className='f1'>RoboFriends</h1>
+                {count}
+                <button onClick={() => setCount(count + 1)} >Click me!</button>
                 <SearchBox searchChange={onSearchChange} />
                 <Scroll>
                     <ErrorBoundry>
