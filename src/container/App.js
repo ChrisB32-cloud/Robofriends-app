@@ -6,13 +6,14 @@ import ErrorBoundry from '../components/ErrorBoundry';
 import './App.css';
 
 
-const App = () => {
+const App = ({ store }) => {
 
     const [robots, setRobots] = useState([])
     const [searchfield, setSearchField] = useState('')
     const [count, setCount] = useState(0)
 
     useEffect(() => {
+        // console.log(store.getState());
         fetch('https://jsonplaceholder.typicode.com/users')
             .then(response => response.json())
             .then(users => setRobots(users))
@@ -26,6 +27,7 @@ const App = () => {
     const filteredRobots = robots.filter(robot => {
         return robot.name.toLowerCase().includes(searchfield.toLowerCase());
     })
+
 
 
     return !robots.length ?
