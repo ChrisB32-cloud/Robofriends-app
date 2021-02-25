@@ -1,16 +1,33 @@
 import React, { useState, useEffect } from 'react';
+import { connect } from 'react-redux'
 import CardList from '../components/CardList';
 import SearchBox from '../components/SearchBox';
 import Scroll from '../components/Scroll';
 import ErrorBoundry from '../components/ErrorBoundry';
+import { setSearchField } from '../actions'
 import './App.css';
 
 
-const App = ({ store }) => {
+const mapStateToProps = state => {
+    return {
+        searchField: state.searchField
+    }
+}
+
+const mapDispatchToProps = dispatch => {
+    return {
+        onSearchChange: (event) => dispatch(setSearchField(event.target.value))
+    }
+}
+
+
+const App = ({ searchField, onSearchChange }) => {
 
     const [robots, setRobots] = useState([])
-    const [searchfield, setSearchField] = useState('')
-    const [count, setCount] = useState(0)
+    // const [searchField, setSearchField] = useState('')
+    // const [count, setCount] = useState(0)
+
+
 
     useEffect(() => {
         // console.log(store.getState());
@@ -19,13 +36,13 @@ const App = ({ store }) => {
             .then(users => setRobots(users))
     }, [])
 
-    const onSearchChange = (event) => {
-        setSearchField(event.target.value)
+    // const onSearchChange = (event) => {
+    //     setSearchField(event.target.value)
 
-    }
+    // }
 
     const filteredRobots = robots.filter(robot => {
-        return robot.name.toLowerCase().includes(searchfield.toLowerCase());
+        return robot.name.toLowerCase().includes(searchField.toLowerCase());
     })
 
 
@@ -36,8 +53,8 @@ const App = ({ store }) => {
 
             <div className='tc'>
                 <h1 className='f1'>RoboFriends</h1>
-                {count}
-                <button onClick={() => setCount(count + 1)} >Click me!</button>
+                {/* {count} */}
+                {/* <button onClick={() => setCount(count + 1)} >Click me!</button> */}
                 <SearchBox searchChange={onSearchChange} />
                 <Scroll>
                     <ErrorBoundry>
@@ -52,4 +69,4 @@ const App = ({ store }) => {
     // }
 }
 
-export default App;
+export default connect(mapStateToProps, mapDispatchToProps)(App);
