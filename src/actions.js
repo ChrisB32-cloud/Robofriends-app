@@ -5,12 +5,14 @@ import {
     REQUEST_ROBOTS_FAILED
 } from './constants'
 
+// This is returning an Object
 export const setSearchField = (text) => ({
     type: CHANGE_SEARCHFIELD,
     payload: text
 })
 
-export const requestRobots = (dispatch) => {
+// This is NOT returning an object we're returning a function reference (redux-thunk)
+export const requestRobots = () => (dispatch) => {
     dispatch({ type: REQUEST_ROBOTS_PENDING })
     fetch('https://jsonplaceholder.typicode.com/users')
         .then(response => response.json())
